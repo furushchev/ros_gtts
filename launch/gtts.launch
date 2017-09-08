@@ -1,0 +1,22 @@
+<launch>
+  <arg name="gtts_machine" default="localhost" />
+  <arg name="sound_play_machine" default="localhost" />
+
+  <arg name="launch_sound_play" default="true" />
+
+  <arg name="use_machine" default="true" />
+  <machine if="$(arg use_machine)" name="localhost" address="localhost" />
+
+  <node name="gtts" pkg="ros_gtts" type="ros_gtts_node.py"
+        machine="$(arg gtts_machine)">
+    <remap from="text_to_speech" to="gtts/text_to_speech" />
+  </node>
+
+  <node pkg="sound_play" type="soundplay_node.py" name="sound_play_gtts"
+        if="$(arg launch_sound_play)"
+        machine="$(arg sound_play_machine)">
+    <remap from="robotsound" to="robotsound_gtts"/>
+    <remap from="sound_play" to="robotsound_gtts"/>
+    <env name="PATH" value="$(find ros_gtts)/bin:$(env PATH)" />
+  </node>
+</launch>

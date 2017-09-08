@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<package>
+  <name>ros_gtts</name>
+  <version>0.0.0</version>
+  <description>ROS wrapper for python gTTS library</description>
+  <maintainer email="furushchev@jsk.imi.i.u-tokyo.ac.jp">Yuki Furuta</maintainer>
+
+  <license>MIT</license>
+  <url type="website">https://pypi.python.org/pypi/gTTS/1.2.2</url>
+  <author email="furushchev@jsk.imi.i.u-tokyo.ac.jp">Yuki Furuta</author>
+
+  <buildtool_depend>catkin</buildtool_depend>
+  <build_depend>dynamic_reconfigure</build_depend>
+  <build_depend>message_generation</build_depend>
+  <run_depend>dynamic_reconfigure</run_depend>
+  <run_depend>message_runtime</run_depend>
+  <run_depend>nkf</run_depend>
+</package>

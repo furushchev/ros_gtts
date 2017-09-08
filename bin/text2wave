@@ -1,0 +1,37 @@
+#!/bin/bash
+
+# for festival compaibility
+ARGS=`echo $@ | sed 's/\-eval\ ()//' | sed 's/\-eval\ (\(.\+\))\ \(.\+\)$/\2\ \-p\ \1/'`
+eval set -- "$ARGS"
+
+INPUT_FILE=$1;shift;
+UTF8TEXT_FILE=/tmp/_gtts_$$.txt
+OUTPUT_FILE=/tmp/_gtts_$$.wav
+while getopts p:o: OPT
+do
+  case ${OPT} in
+    "o")
+      OUTPUT_FILE=$(readlink -f "$OPTARG")
+      ;;
+  esac
+done
+
+if [ ! -e $INPUT_FILE ]; then
+  echo "$INPUT_FILE not found" 1>&2
+  exit 1
+fi
+
+echo $INPUT_FILE > /tmp/debug
+cat $INPUT_FILE >> /tmp/debug
+
+GTTS_LANG=$(cat $INPUT_FILE | head -n1)
+cat $INPUT_FILE | tail -n+2 | nkf -w > $UTF8TEXT_FILE
+
+rosservice call gtts/text_to_speech \
+"
+text_path: '$UTF8TEXT_FILE'
+language: '$GTTS_LANG'
+wave_path: '$OUTPUT_FILE'
+"
+
+rm -f $UTF8TEXT_FILE
