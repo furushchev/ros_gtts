@@ -8,8 +8,8 @@
    (instance sound_play::SoundRequest :init
              :sound sound_play::SoundRequest::*say*
              :command sound_play::SoundRequest::*play_once*
-             :arg (format nil "~A~%~A" (string-downcase lang) str)
-             :arg2 "aq_rm.phont")
+             :arg str
+             :arg2 (string-downcase lang))
    :topic-name topic-name
    :wait wait
    :timeout timeout))

@@ -1,19 +1,28 @@
 #!/bin/bash
 
 # for festival compaibility
-ARGS=`echo $@ | sed 's/\-eval\ ()//' | sed 's/\-eval\ (\(.\+\))\ \(.\+\)$/\2\ \-p\ \1/'`
+ARGS=`echo $@ | sed 's/\-eval\ ()//' | sed 's/\-eval\ (\(.\+\))\ \(.\+\)$/\2\ \-l\ \1/'`
 eval set -- "$ARGS"
 
 INPUT_FILE=$1;shift;
-UTF8TEXT_FILE=/tmp/_gtts_$$.txt
-OUTPUT_FILE=/tmp/_gtts_$$.wav
-while getopts p:o: OPT
-do
-  case ${OPT} in
-    "o")
-      OUTPUT_FILE=$(readlink -f "$OPTARG")
-      ;;
-  esac
+PREFIX=_gtts
+UTF8TEXT_FILE=/tmp/$PREFIX_$$.txt
+OUTPUT_FILE=/tmp/$PREFIX_$$.wav
+
+while [[ $# -gt 0 ]]; do
+    case "$1" in
+        -o)
+            OUTPUT_FILE=$(readlink -f "$2")
+            shift
+            ;;
+        -l)
+            GTTS_LANG="$2"
+            shift
+            ;;
+        *)
+            shift
+            ;;
+    esac
 done
 
 if [ ! -e $INPUT_FILE ]; then
@@ -21,11 +30,7 @@ if [ ! -e $INPUT_FILE ]; then
   exit 1
 fi
 
-echo $INPUT_FILE > /tmp/debug
-cat $INPUT_FILE >> /tmp/debug
-
-GTTS_LANG=$(cat $INPUT_FILE | head -n1)
-cat $INPUT_FILE | tail -n+2 | nkf -w > $UTF8TEXT_FILE
+nkf -w $INPUT_FILE > $UTF8TEXT_FILE
 
 rosservice call gtts/text_to_speech \
 "

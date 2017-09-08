@@ -24,7 +24,6 @@ class ROSGTTSNode(object):
 
     def tts_srv_cb(self, req):
         assert len(req.wave_path) > 0, "No output wave_path specified"
-#        assert not os.path.exists(req.wave_path), "wave_path %s already exists" % req.wave_path
 
         with open(req.text_path, "r") as f:
             text = f.read()
