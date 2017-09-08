@@ -12,7 +12,7 @@ roslaunch ros_gtts gtts.launch
 
 ```lisp
 $ roseus
-$ (load "package://ros_gtts/euslisp/speak.l")
+$ (load "package://pr2eus/euslisp/speak.l")
 $ (speak "hello" :lang :en)
 ```
 
