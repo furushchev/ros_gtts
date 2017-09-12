@@ -2,7 +2,10 @@
 # -*- coding: utf-8 -*-
 # Author: Furushchev <furushchev@jsk.imi.i.u-tokyo.ac.jp>
 
+import codecs
 import os
+import warnings
+
 import rospy
 from gtts import gTTS
 
@@ -25,15 +28,17 @@ class ROSGTTSNode(object):
     def tts_srv_cb(self, req):
         assert len(req.wave_path) > 0, "No output wave_path specified"
 
-        with open(req.text_path, "r") as f:
+        with codecs.open(req.text_path, encoding="utf-8", mode="r") as f:
             text = f.read()
             assert len(text) > 0, "No text content to speech"
         if not req.language:
             req.language = "en"
 
-        tts = gTTS(text=text, lang=req.language, slow=self.slow)
-        tts.save(req.wave_path)
-        assert os.path.exists(req.wave_path), "wave file was not generateed. Something is going wrong."
+        with warnings.catch_warnings():
+            warnings.simplefilter("ignore")
+            tts = gTTS(text=text, lang=req.language, slow=self.slow)
+            tts.save(req.wave_path)
+        assert os.path.exists(req.wave_path), "wave file was not generateed. Some thing wrong."
         return TextToSpeechResponse(ok=True)
 
 
