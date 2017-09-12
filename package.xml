@@ -16,4 +16,5 @@
   <run_depend>message_runtime</run_depend>
   <run_depend>nkf</run_depend>
   <run_depend>python-gTTS-pip</run_depend>
+  <run_depend>sound_play</run_depend>
 </package>
