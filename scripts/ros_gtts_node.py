@@ -38,7 +38,7 @@ class ROSGTTSNode(object):
             warnings.simplefilter("ignore")
             tts = gTTS(text=text, lang=req.language, slow=self.slow)
             tts.save(req.wave_path)
-        assert os.path.exists(req.wave_path), "wave file was not generateed. Some thing wrong."
+        assert os.path.exists(req.wave_path), "wave file was not generateed. Something went wrong."
         return TextToSpeechResponse(ok=True)
 
 
