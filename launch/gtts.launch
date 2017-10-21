@@ -8,9 +8,7 @@
   <machine if="$(arg use_machine)" name="localhost" address="localhost" />
 
   <node name="gtts" pkg="ros_gtts" type="ros_gtts_node.py"
-        machine="$(arg gtts_machine)">
-    <remap from="text_to_speech" to="gtts/text_to_speech" />
-  </node>
+        machine="$(arg gtts_machine)" />
 
   <node pkg="sound_play" type="soundplay_node.py" name="sound_play_gtts"
         if="$(arg launch_sound_play)"

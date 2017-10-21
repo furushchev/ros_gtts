@@ -32,7 +32,7 @@ fi
 
 nkf -w $INPUT_FILE > $UTF8TEXT_FILE
 
-rosservice call gtts/text_to_speech \
+rosservice call text_to_speech \
 "
 text_path: '$UTF8TEXT_FILE'
 language: '$GTTS_LANG'
