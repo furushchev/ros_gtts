@@ -3,6 +3,7 @@
   <arg name="sound_play_machine" default="localhost" />
 
   <arg name="launch_sound_play" default="true" />
+  <arg name="launch_echo" default="false"/>
 
   <arg name="use_machine" default="true" />
   <machine if="$(arg use_machine)" name="localhost" address="localhost" />
@@ -15,5 +16,10 @@
         machine="$(arg sound_play_machine)">
     <remap from="sound_play" to="robotsound"/>
     <env name="PATH" value="$(find ros_gtts)/bin:$(env PATH)" />
+  </node>
+
+  <node name="echo" pkg="ros_gtts" type="echo.py"
+        if="$(arg launch_echo)">
+    <remap from="sound_play" to="robotsound"/>
   </node>
 </launch>
