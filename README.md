@@ -4,6 +4,13 @@ ros_gtts
 Text-to-Speech service for ROS using python gTTS library for backend.
 
 
+## Install
+
+``` bash
+sudo pip install -U pydub
+```
+
+
 ## Usage
 
 1. Start server

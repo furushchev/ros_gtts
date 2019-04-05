@@ -5,6 +5,7 @@
 import codecs
 import os
 import warnings
+from pydub import AudioSegment
 
 import rospy
 from gtts import gTTS
@@ -34,10 +35,13 @@ class ROSGTTSNode(object):
         if not req.language:
             req.language = "en"
 
+        filename, ext = os.path.splitext(req.wave_path)
+        mp3_path = filename + '.mp3'
         with warnings.catch_warnings():
             warnings.simplefilter("ignore")
             tts = gTTS(text=text, lang=req.language, slow=self.slow)
-            tts.save(req.wave_path)
+            tts.save(mp3_path)
+            AudioSegment.from_mp3(mp3_path).export(req.wave_path, format='wav')
         assert os.path.exists(req.wave_path), "wave file was not generateed. Something went wrong."
         return TextToSpeechResponse(ok=True)
 
